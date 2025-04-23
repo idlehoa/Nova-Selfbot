@@ -1,0 +1,26 @@
+{
+  "name": "nova-selfbot",
+  "version": "1.0.0",
+  "description": "Nova-SelfBot",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "cook"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idlehoa/Nova-Selfbot.git"
+  },
+  "keywords": [
+    "N"
+  ],
+  "author": "idle.cuti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/idlehoa/Nova-Selfbot/issues"
+  },
+  "homepage": "https://github.com/idlehoa/Nova-Selfbot#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "moment": "^2.30.1"
+  }
+}
