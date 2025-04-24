@@ -5,8 +5,7 @@ module.exports = {
     once: true,
     async execute(client) {
         console.log(`${client.user.username} is ready!`);
-
-        // ✅ Truyền client vào constructor
+        
         const grassRPC = new RichPresence(client)
             .setType('PLAYING')
             .setName('Touching grass 🌿')
@@ -19,9 +18,8 @@ module.exports = {
             .setPlatform('desktop')
             .addButton('How to Touch Grass', 'https://www.wikihow.com/Touch-Grass');
 
-        // ✅ Sử dụng .toJSON()
         client.user.setActivity(grassRPC.toJSON());
 
-        console.log('✅ Rich Presence đã được thiết lập.');
+        console.log(' Rich Presence has been set.');
     }
 };
