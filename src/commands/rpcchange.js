@@ -1,25 +1,38 @@
 const { RichPresence } = require('discord.js-selfbot-v13');
 
 module.exports = {
-    name: 'ready',
-    once: true,
-    async execute(client) {
-        console.log(`${client.user.username} is ready!`);
-        
-        const grassRPC = new RichPresence(client)
-            .setType('PLAYING')
-            .setName('Touching grass 🌿')
-            .setDetails('Outside... breathing real air 💨')
-            .setState('Escaped the Discord basement 🕳️')
-            .setStartTimestamp(Date.now())
-            .setEndTimestamp(Date.now() + (69 * 60 + 420) * 1000)
-            .setAssetsLargeImage('https://media.discordapp.net/attachments/1359207300555870548/1364621653304152237/215522-050-8315BB78.png')
-            .setAssetsLargeText('Grass on da top')
-            .setPlatform('desktop')
-            .addButton('How to Touch Grass', 'https://www.wikihow.com/Touch-Grass');
+    name: 'rpcchanger',
+    async execute(message, args, client) {
+        const content = args.join(' ').trim();
 
-        client.user.setActivity(grassRPC.toJSON());
+        if (!content) return message.reply('Wrong rpc pls try again');
 
-        console.log(' Rich Presence has been set.');
+        const fields = content.split(';').map(f => f.trim());
+        const rpcData = {};
+
+        for (const field of fields) {
+            const [key, ...valueParts] = field.split('=');
+            if (!key || !valueParts.length) continue;
+            rpcData[key.toLowerCase()] = valueParts.join('=').trim();
+        }
+
+        const rpc = new RichPresence(client);
+
+        if (rpcData.name) rpc.setName(rpcData.name);
+        if (rpcData.details) rpc.setDetails(rpcData.details);
+        if (rpcData.state) rpc.setState(rpcData.state);
+        if (rpcData.type) rpc.setType(rpcData.type.toUpperCase());
+        if (rpcData.largeImage) rpc.setAssetsLargeImage(rpcData.largeImage);
+        if (rpcData.largeText) rpc.setAssetsLargeText(rpcData.largeText);
+        if (rpcData.buttontext && rpcData.buttonurl) {
+            rpc.addButton(rpcData.buttontext, rpcData.buttonurl);
+        }
+
+        rpc.setStartTimestamp(Date.now());
+        rpc.setPlatform('desktop');
+
+        client.user.setActivity(rpc.toJSON());
+
+        message.reply('RPC YESSIR');
     }
 };
