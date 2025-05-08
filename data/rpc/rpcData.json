@@ -1,0 +1,34 @@
+{
+  "history": [
+    {
+      "name": "Yêu Đất Nước Việt Nam",
+      "type": "PLAYING",
+      "url": null,
+      "sessionId": "a1df73ddf29910b757132d4d89ef8867",
+      "platform": null,
+      "timestamps": {
+        "start": 1746630184147,
+        "end": null
+      },
+      "applicationId": null,
+      "details": "🇻🇳 Tự hào Việt Nam",
+      "state": "Việt Nam trong tim tôi",
+      "syncId": null,
+      "flags": 0,
+      "buttons": [],
+      "emoji": null,
+      "party": null,
+      "assets": {
+        "large_image": "mp:attachments/1235955217837588520/1369688308103249991/485405944_4110819215908972_8199655780505900838_n.jpg?ex=681cc524&is=681b73a4&hm=63a09c67ad6a7aee77b57c39f770d74bd40717d327021fd79801227bd618e10d",
+        "large_text": null,
+        "small_image": "mp:attachments/1235955217837588520/1369688308103249991/485405944_4110819215908972_8199655780505900838_n.jpg?ex=681cc524&is=681b73a4&hm=63a09c67ad6a7aee77b57c39f770d74bd40717d327021fd79801227bd618e10d",
+        "small_text": null
+      },
+      "secrets": {},
+      "metadata": {},
+      "savedAt": "2025-05-07 15:04:03",
+      "savedBy": "idlehoa"
+    }
+  ],
+  "lastUpdated": "2025-05-07 15:04:03"
+}
