@@ -63,7 +63,7 @@ module.exports = {
 
       const subcommand = args[0].toLowerCase();
       let isDeepSeek = false;
-      let selectedCharacter = process.env.CHARACTER || Object.keys(CHARACTERS)[0];
+      let selectedCharacter = (process.env.CHARACTER || Object.keys(CHARACTERS)[0]).toLowerCase();
 
       if (subcommand === CONFIG.SUBCOMMANDS.DEEP) {
         args.shift();
@@ -87,6 +87,10 @@ module.exports = {
           return message.channel.send(`❌ Please provide a question after the "${subcommand}" subcommand!`);
         }
         selectedCharacter = subcommand.toLowerCase();
+      }
+
+      if (!CHARACTERS[selectedCharacter]) {
+        return message.channel.send(`❌ Character "${selectedCharacter}" not found!`);
       }
 
       const question = args.join(' ');
