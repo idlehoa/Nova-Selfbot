@@ -5,7 +5,7 @@
  */
 
 // All supported AI models
-export const AI_MODELS = [
+const AI_MODELS = [
   // DeepSeek Models
   'deepseek-chat',          // Base chat model
   'deepseek-coder',         // Code specialized model
@@ -35,10 +35,10 @@ export const AI_MODELS = [
 ];
 
 // Default model setting
-export const DEFAULT_MODEL = 'gpt-4o';
+const DEFAULT_MODEL = 'gpt-4o';
 
 // Model Categories for better organization
-export const MODEL_CATEGORIES = {
+const MODEL_CATEGORIES = {
   DEEPSEEK: [
     'deepseek-chat',
     'deepseek-coder',
@@ -69,7 +69,7 @@ export const MODEL_CATEGORIES = {
 };
 
 // Model configurations with default parameters
-export const MODEL_CONFIGS = {
+const MODEL_CONFIGS = {
   // DeepSeek Models
   'deepseek-chat': {
     maxTokens: 8192,
@@ -161,8 +161,7 @@ export const MODEL_CONFIGS = {
   }
 };
 
-// Export everything as a default object
-export default {
+module.exports = {
   AI_MODELS,
   DEFAULT_MODEL,
   MODEL_CATEGORIES,

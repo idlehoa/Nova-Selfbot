@@ -11,16 +11,6 @@ const handlersPath = path.join(__dirname, 'handlers');
   require(`${handlersPath}/${handler}`)(client);
 });
 
-const { default: AIManager } = require('../AI/AIManager.js');
-
-const aiManager = new AIManager(
-  process.env.GITHUB_TOKEN || "",
-  process.env.AZURE_AI_ENDPOINT || "https://models.inference.ai.azure.com",
-  process.env.DEFAULT_MODEL || "gpt-4o"
-);
-
-global.aiManager = aiManager; 
-client.aiManager = aiManager; 
 
 client.login(process.env.TOKEN);
 

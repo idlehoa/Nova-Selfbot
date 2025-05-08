@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
-import { z } from 'zod';
-import { AI_MODELS, DEFAULT_MODEL } from './lib/constants.js';
+const dotenv = require('dotenv');
+const { z } = require('zod');
+const { AI_MODELS, DEFAULT_MODEL } = require('./lib/constants.js');
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const defaultConfig = {
   DEFAULT_MODEL: DEFAULT_MODEL,
   CACHE_ENABLED: true,
   CACHE_SIZE: 100,
-  CACHE_TTL: 3600000, // 1 hour in milliseconds
+  CACHE_TTL: 3600000,
   DEFAULT_TEMPERATURE: 0.7,
   DEFAULT_MAX_TOKENS: 2000,
   DEFAULT_TOP_P: 1,
@@ -18,7 +18,7 @@ const defaultConfig = {
   DEEPSEEK_API_KEY: '',
   DEEPSEEK_API_ENDPOINT: 'https://api.deepseek.com/v1',
   RETRY_ATTEMPTS: 3,
-  RETRY_DELAY: 1000, // 1 second
+  RETRY_DELAY: 1000,
 };
 
 const envSchema = z.object({
@@ -48,4 +48,4 @@ const mergedConfig = {
 
 const config = envSchema.parse(mergedConfig);
 
-export default config;
+module.exports = config;

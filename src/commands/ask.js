@@ -1,19 +1,24 @@
-const { default: AIManager } = require('../../AI/AIManager.js');
+const AIManager = require('../../AI/AIManager.js');
 const { CHARACTERS } = require('../../AI/lib/characters.js');
 
 const CONFIG = {
   PREFIX: process.env.PREFIX || '>',
   ALLOWED_ROLES: ['admin', 'owner'],
   SUBCOMMANDS: {
-    DEEP: 'deep'
+    DEEP: 'deep',
+    DOCTOR: 'doctor',
+    CODER: 'coder',
+    TEACHER: 'teacher',
+    CHEF: 'chef',
+    FRIENDLY: 'friendlybot',
+    GITHUB: 'github'
   }
 };
 
-// Create instances of AIManager for different providers
 const defaultAI = new AIManager({
   githubToken: process.env.GITHUB_TOKEN || "",
   endpoint: process.env.AZURE_AI_ENDPOINT || "https://models.inference.ai.azure.com",
-  defaultModel: process.env.DEFAULT_MODEL ,
+  defaultModel: process.env.DEFAULT_MODEL,
   deepseekEnabled: false
 });
 
@@ -52,60 +57,58 @@ module.exports = {
   hidden: false,
   async execute(client, message, args) {
     try {
-      // Check if there's a question
       if (!args.length) {
         return message.channel.send('❌ Please provide a question!');
       }
 
-      // Check if using DeepSeek subcommand
-      const isDeepSeek = args[0].toLowerCase() === CONFIG.SUBCOMMANDS.DEEP;
-      
-      // Remove subcommand if present
-      let question;
-      if (isDeepSeek) {
-        // Remove 'deep' subcommand and check remaining args
+      const subcommand = args[0].toLowerCase();
+      let isDeepSeek = false;
+      let selectedCharacter = process.env.CHARACTER || Object.keys(CHARACTERS)[0];
+
+      if (subcommand === CONFIG.SUBCOMMANDS.DEEP) {
         args.shift();
         if (!args.length) {
           return message.channel.send('❌ Please provide a question after the "deep" subcommand!');
         }
-        question = args.join(' ');
-
-        // Check if DeepSeek is properly configured
+        isDeepSeek = true;
         if (!process.env.DEEPSEEK_API_KEY) {
           return message.channel.send('❌ DeepSeek AI is not properly configured! Please set up DEEPSEEK_API_KEY in environment variables.');
         }
-      } else {
-        // Use all args as question for normal mode
-        question = args.join(' ');
+      } else if (
+        subcommand === CONFIG.SUBCOMMANDS.DOCTOR ||
+        subcommand === CONFIG.SUBCOMMANDS.CODER ||
+        subcommand === CONFIG.SUBCOMMANDS.TEACHER ||
+        subcommand === CONFIG.SUBCOMMANDS.CHEF ||
+        subcommand === CONFIG.SUBCOMMANDS.FRIENDLY ||
+        subcommand === CONFIG.SUBCOMMANDS.GITHUB
+      ) {
+        args.shift();
+        if (!args.length) {
+          return message.channel.send(`❌ Please provide a question after the "${subcommand}" subcommand!`);
+        }
+        selectedCharacter = subcommand.toLowerCase();
       }
 
-      // Send initial response
+      const question = args.join(' ');
       const loadingMessage = await message.channel.send(
-        `🤔 ${isDeepSeek ? 'DeepSeek' : 'Normal'} AI is thinking...`
+        `🤔 ${(isDeepSeek ? 'DeepSeek' : 'Normal')} AI is thinking as ${selectedCharacter}...`
       );
 
-      // Get default character or use the first available one
-      const CHARACTER = process.env.CHARACTER || Object.keys(CHARACTERS)[0];
-
-      // Select AI instance based on mode
       const aiInstance = isDeepSeek ? deepseekAI : defaultAI;
 
-      // Query the AI
       const response = await aiInstance.queryAI(
         question,
         message.author.username,
-        CHARACTER
+        selectedCharacter
       );
 
-      // Prepare response data
       const data = {
         provider: isDeepSeek ? 'DeepSeek AI' : 'Normal AI',
         model: aiInstance.getCurrentModel(),
-        character: CHARACTER,
+        character: selectedCharacter,
         response: response
       };
 
-      // Edit message with formatted response
       await loadingMessage.edit(formatOutput(data, client, message));
 
     } catch (error) {

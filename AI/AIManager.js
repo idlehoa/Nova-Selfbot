@@ -1,7 +1,7 @@
-import { CHARACTERS } from './lib/characters.js';
-import { AI_MODELS } from './lib/constants.js';
-import { loadSpecialAlgorithms } from './special/index.js';
-import config from './config.js';
+const { CHARACTERS } = require('./lib/characters.js');
+const { AI_MODELS } = require('./lib/constants.js');
+const { loadSpecialAlgorithms } = require('./special/index.js');
+const config = require('./config.js');
 
 class AIError extends Error {
   constructor(message, code, originalError = null) {
@@ -381,4 +381,4 @@ class AIManager {
   }
 }
 
-export default AIManager;
+module.exports = AIManager;
